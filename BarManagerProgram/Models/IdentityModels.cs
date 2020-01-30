@@ -23,12 +23,14 @@ namespace BarManagerProgram.Models
         public DbSet<Manager> Manager { get; set; }
         public DbSet<Bartender> Bartender { get; set; }
         public DbSet<ManagerCocktail> ManagerCocktail { get; set; }
+        public DbSet<Bar> Bar { get; set; }
+        public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Cocktail> Cocktail { get; set; }
         public DbSet<Liquor> Liquor { get; set; }
         public DbSet<Juice> Juice { get; set; }
         public DbSet<Syrup> Syrup { get; set; }
         public DbSet<Liqueur> Liqueur { get; set; }
-        public DbSet<Bitter> Bitters { get; set; }
+        public DbSet<Bitter> Bitter { get; set; }
         public DbSet<Topper> Topper { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
