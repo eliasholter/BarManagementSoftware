@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BarManagerProgram.Models.Inventory>
+
+@{
+    ViewBag.Title = "My Inventory";
+}
+
+<h2>My Inventory</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VodkaBottleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GinBottleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WhiteRumBottleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TequilaBottleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SpicedRumBottleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandyBottleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WhiskeyBottleCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScotchBottleCount)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.VodkaBottleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GinBottleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WhiteRumBottleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TequilaBottleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpicedRumBottleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BrandyBottleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WhiskeyBottleCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScotchBottleCount)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.InventoryId })
+        </td>
+    </tr>
+}
+
+</table>

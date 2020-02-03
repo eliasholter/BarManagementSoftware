@@ -11,8 +11,8 @@ namespace BarManagerProgram.Models
     {
         [Key]
         public int BarId { get; set; }
-        [ForeignKey("Inventory")]
-        public int InventoryId { get; set; }
-        public Inventory Inventory { get; set; }
+        [ForeignKey("Manager")]
+        public int ManagerId { get; set; }
+        public Manager Manager { get; set; }
     }
 }

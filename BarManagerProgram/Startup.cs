@@ -11,6 +11,7 @@ namespace BarManagerProgram
     {
         public void Configuration(IAppBuilder app)
         {
+            createRolesandUsers();
             ConfigureAuth(app);
         }
 

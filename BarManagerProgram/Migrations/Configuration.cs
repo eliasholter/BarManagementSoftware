@@ -19,14 +19,14 @@ namespace BarManagerProgram.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
             context.Liquor.AddOrUpdate(
-                new Models.Liquor { LiquorName = "Vodka" },
-                new Models.Liquor { LiquorName = "Gin" },
-                new Models.Liquor { LiquorName = "White Rum" },
-                new Models.Liquor { LiquorName = "Tequila" },
-                new Models.Liquor { LiquorName = "Spiced Rum" },
-                new Models.Liquor { LiquorName = "Brandy" },
-                new Models.Liquor { LiquorName = "Whiskey" },
-                new Models.Liquor { LiquorName = "Scotch" });
+               new Models.Liquor { LiquorName = "Vodka" },
+               new Models.Liquor { LiquorName = "Gin" },
+               new Models.Liquor { LiquorName = "White Rum" },
+               new Models.Liquor { LiquorName = "Tequila" },
+               new Models.Liquor { LiquorName = "Spiced Rum" },
+               new Models.Liquor { LiquorName = "Brandy" },
+               new Models.Liquor { LiquorName = "Whiskey" },
+               new Models.Liquor { LiquorName = "Scotch" });
             context.Juice.AddOrUpdate(
                 new Models.Juice { JuiceName = "Lemon" },
                 new Models.Juice { JuiceName = "Lime" },
@@ -38,7 +38,7 @@ namespace BarManagerProgram.Migrations
                 new Models.Syrup { SyrupName = "Blackberry" },
                 new Models.Syrup { SyrupName = "Raspberry" },
                 new Models.Syrup { SyrupName = "Peach-Mango" },
-                new Models.Syrup { SyrupName = "Watermelon" }); 
+                new Models.Syrup { SyrupName = "Watermelon" });
             context.Liqueur.AddOrUpdate(
                  new Models.Liqueur { LiqueurName = "Orange" },
                  new Models.Liqueur { LiqueurName = "Framboise" },

@@ -1,0 +1,21 @@
+﻿@model BarManagerProgram.Models.Bar
+
+@{
+    ViewBag.Title = "Confirmation Page";
+}
+
+<h2>Please Confirm That You Would Like To Create A Bar</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Confirm" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

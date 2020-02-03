@@ -78,10 +78,27 @@ namespace BarManagerProgram.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            var user = await UserManager.FindAsync(model.UserName, model.Password);
+            var roles = await UserManager.GetRolesAsync(user.Id);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (roles.Contains("Admin"))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (roles.Contains("Manager"))
+                    {
+                        return RedirectToAction("Index", "Manager");
+                    }
+                    else if (roles.Contains("Bartender"))
+                    {
+                        return RedirectToAction("Index", "Bartender");
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -402,6 +419,14 @@ namespace BarManagerProgram.Controllers
 
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
+        }
+
+        public ActionResult LogOut()
+        {
+
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login", "Account");
+
         }
 
         //

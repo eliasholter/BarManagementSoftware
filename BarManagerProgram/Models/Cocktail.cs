@@ -15,6 +15,8 @@ namespace BarManagerProgram.Models
         public string CocktailName { get; set; }
         [Display(Name = "Type Of Cocktail")]
         public string CocktailType { get; set; }
+        [Display(Name = "Price")]
+        public bool Price { get; set; }
         [Display(Name = "Flavor Profile")]
         public string FlavorProfile { get; set; }
         [Display(Name = "Bubbly")]
@@ -24,7 +26,7 @@ namespace BarManagerProgram.Models
 
         [ForeignKey("Liquor")]
         [Display(Name = "Type Of Liquor")]
-        public int? LiquorId { get; set; }
+        public int LiquorId { get; set; }
         public Liquor Liquor { get; set; }
         [Display(Name = "Amount Of Liquor")]
         public double LiquorAmount { get; set; }
@@ -69,7 +71,7 @@ namespace BarManagerProgram.Models
         [NotMapped]
         public List<Juice> Juices { get; set; }
         [NotMapped]
-        public List<Liquor> Syrups { get; set; }
+        public List<Syrup> Syrups { get; set; }
         [NotMapped]
         public List<Liqueur> Liqueurs { get; set; }
         [NotMapped]

@@ -13,7 +13,7 @@ namespace BarManagerProgram.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202001302137380_initial"; }
+            get { return "202002031750525_initial"; }
         }
         
         string IMigrationMetadata.Source
