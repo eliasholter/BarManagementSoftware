@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BarManagerProgram.Models.Inventory>
+﻿@model BarManagerProgram.Models.Inventory
 
 @{
     ViewBag.Title = "My Inventory";
@@ -35,36 +35,38 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.VodkaBottleCount)
+            @Html.DisplayFor(model => model.VodkaBottleCount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.GinBottleCount)
+            @Html.DisplayFor(model => model.GinBottleCount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.WhiteRumBottleCount)
+            @Html.DisplayFor(model => model.WhiteRumBottleCount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TequilaBottleCount)
+            @Html.DisplayFor(model => model.TequilaBottleCount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SpicedRumBottleCount)
+            @Html.DisplayFor(model => model.SpicedRumBottleCount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.BrandyBottleCount)
+            @Html.DisplayFor(model => model.BrandyBottleCount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.WhiskeyBottleCount)
+            @Html.DisplayFor(model => model.WhiskeyBottleCount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ScotchBottleCount)
+            @Html.DisplayFor(model => model.ScotchBottleCount)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.InventoryId })
-        </td>
+        @if (User.IsInRole("Manager"))
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = @Model.InventoryId })
+            </td>
+        }
     </tr>
-}
+
 
 </table>

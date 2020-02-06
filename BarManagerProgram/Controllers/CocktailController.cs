@@ -1,4 +1,5 @@
 ﻿using BarManagerProgram.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace BarManagerProgram.Controllers
 
         public CocktailController()
         {
-
+            context = new ApplicationDbContext();
         }
 
         // GET: Cocktail
@@ -32,12 +33,18 @@ namespace BarManagerProgram.Controllers
         public ActionResult Create()
         {
             Cocktail cocktail = new Cocktail();
-            cocktail.Liquors = context.Liquor.ToList();
-            cocktail.Juices = context.Juice.ToList();
-            cocktail.Syrups = context.Syrup.ToList();
-            cocktail.Liqueurs = context.Liqueur.ToList();
-            cocktail.Bitters = context.Bitter.ToList();
-            cocktail.Toppers = context.Topper.ToList();
+            var liquors = context.Liquor.Select(s => s.LiquorName).ToList();
+            var juices = context.Juice.Select(s => s.JuiceName).ToList();
+            var syrups = context.Syrup.Select(s => s.SyrupName).ToList();
+            var liqueurs = context.Liqueur.Select(s => s.LiqueurName).ToList();
+            var bitters = context.Bitter.Select(s => s.BitterName).ToList();
+            var toppers = context.Topper.Select(s => s.TopperName).ToList();
+            ViewBag.LiquorName = new SelectList(liquors);
+            ViewBag.JuiceName = new SelectList(juices);
+            ViewBag.SyrupName = new SelectList(syrups);
+            ViewBag.LiqueurName = new SelectList(liqueurs);
+            ViewBag.BitterName = new SelectList(bitters);
+            ViewBag.TopperName = new SelectList(toppers);
             return View(cocktail);
         }
 
@@ -48,8 +55,27 @@ namespace BarManagerProgram.Controllers
             try
             {
                 // TODO: Add insert logic here
+                var liquors = context.Liquor.Select(s => s.LiquorName).ToList();
+                var juices = context.Juice.Select(s => s.JuiceName).ToList();
+                var syrups = context.Syrup.Select(s => s.SyrupName).ToList();
+                var liqueurs = context.Liqueur.Select(s => s.LiqueurName).ToList();
+                var bitters = context.Bitter.Select(s => s.BitterName).ToList();
+                var toppers = context.Topper.Select(s => s.TopperName).ToList();
+                ViewBag.LiqourName = new SelectList(liquors);
+                ViewBag.JuiceName = new SelectList(juices);
+                ViewBag.SyrupName = new SelectList(syrups);
+                ViewBag.LiqueurName = new SelectList(liqueurs);
+                ViewBag.BitterName = new SelectList(bitters);
+                ViewBag.TopperName = new SelectList(toppers);
 
-                return RedirectToAction("Index");
+                var userId = GetAppId();
+                var manager = GetManagerByAppId(userId);
+                cocktail.ManagerId = manager.ManagerId;
+
+                context.Cocktail.Add(cocktail);
+                context.SaveChanges();
+
+                return RedirectToAction("Index", "Manager");
             }
             catch
             {
@@ -99,6 +125,16 @@ namespace BarManagerProgram.Controllers
             {
                 return View();
             }
+        }
+        public string GetAppId()
+        {
+            var userid = User.Identity.GetUserId();
+            return userid;
+        }
+        public Manager GetManagerByAppId(string userid)
+        {
+            var manager = context.Manager.Where(b => b.ApplicationId == userid).FirstOrDefault();
+            return manager;
         }
     }
 }

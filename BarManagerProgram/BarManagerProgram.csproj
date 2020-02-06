@@ -45,10 +45,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.5.0\lib\net47\MailKit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MimeKit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.5.0\lib\net47\MimeKit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -177,9 +187,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002031750525_initial.cs" />
-    <Compile Include="Migrations\202002031750525_initial.Designer.cs">
-      <DependentUpon>202002031750525_initial.cs</DependentUpon>
+    <Compile Include="Migrations\202002052116043_Initial.cs" />
+    <Compile Include="Migrations\202002052116043_Initial.Designer.cs">
+      <DependentUpon>202002052116043_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -193,7 +203,6 @@
     <Compile Include="Models\Liquor.cs" />
     <Compile Include="Models\Manager.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManagerCocktail.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Syrup.cs" />
     <Compile Include="Models\Topper.cs" />
@@ -263,11 +272,11 @@
     <Content Include="Views\Inventory\Create.cshtml" />
     <Content Include="Views\Manager\CreateBar.cshtml" />
     <Content Include="Views\Inventory\Edit.cshtml" />
-    <Content Include="Views\Inventory\View.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Cocktail\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cocktail\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -283,8 +292,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002031750525_initial.resx">
-      <DependentUpon>202002031750525_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002052116043_Initial.resx">
+      <DependentUpon>202002052116043_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

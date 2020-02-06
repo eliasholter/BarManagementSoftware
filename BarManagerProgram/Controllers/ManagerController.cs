@@ -49,36 +49,12 @@ namespace BarManagerProgram.Controllers
 
                 manager.ApplicationId = GetAppId();
 
-                context.Manager.Add(manager);
-                context.SaveChanges();
-
-                return RedirectToAction("CreateBar", "Manager");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Players/Create
-        public ActionResult CreateBar()
-        {
-            Bar bar = new Bar();
-            return View(bar);
-        }
-
-        // POST: Players/Create
-        [HttpPost]
-        public ActionResult CreateBar(Bar bar)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-                var userId = GetAppId();
-                var manager = GetManagerByAppId(userId);
+                Bar bar = new Bar();
                 bar.ManagerId = manager.ManagerId;
 
                 context.Bar.Add(bar);
+                context.Manager.Add(manager);
+
                 context.SaveChanges();
 
                 return RedirectToAction("Create", "Inventory");

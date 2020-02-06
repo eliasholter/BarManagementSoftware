@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace BarManagerProgram.Models
 {
@@ -16,7 +17,7 @@ namespace BarManagerProgram.Models
         [Display(Name = "Type Of Cocktail")]
         public string CocktailType { get; set; }
         [Display(Name = "Price")]
-        public bool Price { get; set; }
+        public double Price { get; set; }
         [Display(Name = "Flavor Profile")]
         public string FlavorProfile { get; set; }
         [Display(Name = "Bubbly")]
@@ -24,59 +25,38 @@ namespace BarManagerProgram.Models
         [Display(Name = "Cocktail Rating")]
         public int CocktailRating { get; set; }
 
-        [ForeignKey("Liquor")]
         [Display(Name = "Type Of Liquor")]
-        public int LiquorId { get; set; }
-        public Liquor Liquor { get; set; }
+        public string LiquorName { get; set; }
         [Display(Name = "Amount Of Liquor")]
         public double LiquorAmount { get; set; }
 
-        [ForeignKey("Juice")]
         [Display(Name = "Type Of Juice")]
-        public int? JuiceId { get; set; }
-        public Juice Juice { get; set; }
+        public string JuiceName { get; set; }
         [Display(Name = "Amount Of Juice")]
         public double JuiceAmount { get; set; }
 
-        [ForeignKey("Syrup")]
         [Display(Name = "Type Of Syrup")]
-        public int SyrupId { get; set; }
-        public Syrup Syrup { get; set; }
+        public string SyrupName { get; set; }
         [Display(Name = "Amount Of Syrup")]
         public double SyrupAmount { get; set; }
 
-        [ForeignKey("Liqueur")]
         [Display(Name = "Type Of Liqueur")]
-        public int LiqueurId { get; set; }
-        public Liqueur Liqueur { get; set; }
+        public string LiqueurName { get; set; }
         [Display(Name = "Amount Of Liqueur")]
         public double LiqueurAmount { get; set; }
 
-        [ForeignKey("Bitter")]
         [Display(Name = "Type Of Bitter")]
-        public int BitterId { get; set; }
-        public Bitter Bitter { get; set; }
+        public string BitterName { get; set; }
         [Display(Name = "Amount Of Bitter")]
         public double BitterAmount { get; set; }
 
-        [ForeignKey("Topper")]
         [Display(Name = "Type Of Topper")]
-        public int TopperId { get; set; }
-        public Topper Topper { get; set; }
+        public string TopperName { get; set; }
         [Display(Name = "Amount Of Topper")]
         public double TopperAmount { get; set; }
 
-        [NotMapped]
-        public List<Liquor> Liquors { get; set; }
-        [NotMapped]
-        public List<Juice> Juices { get; set; }
-        [NotMapped]
-        public List<Syrup> Syrups { get; set; }
-        [NotMapped]
-        public List<Liqueur> Liqueurs { get; set; }
-        [NotMapped]
-        public List<Bitter> Bitters { get; set; }
-        [NotMapped]
-        public List<Topper> Toppers { get; set; }
+        [ForeignKey("Manager")]
+        public int ManagerId { get; set; }
+        public Manager Manager { get; set; }
     }
 }

@@ -3,7 +3,7 @@ namespace BarManagerProgram.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -121,36 +121,46 @@ namespace BarManagerProgram.Migrations
                         CocktailId = c.Int(nullable: false, identity: true),
                         CocktailName = c.String(),
                         CocktailType = c.String(),
-                        Price = c.Boolean(nullable: false),
+                        Price = c.Double(nullable: false),
                         FlavorProfile = c.String(),
                         IsBubble = c.Boolean(nullable: false),
                         CocktailRating = c.Int(nullable: false),
-                        LiquorId = c.Int(nullable: false),
+                        LiquorName = c.String(),
                         LiquorAmount = c.Double(nullable: false),
-                        JuiceId = c.Int(),
+                        JuiceName = c.String(),
                         JuiceAmount = c.Double(nullable: false),
-                        SyrupId = c.Int(nullable: false),
+                        SyrupName = c.String(),
                         SyrupAmount = c.Double(nullable: false),
-                        LiqueurId = c.Int(nullable: false),
+                        LiqueurName = c.String(),
                         LiqueurAmount = c.Double(nullable: false),
-                        BitterId = c.Int(nullable: false),
+                        BitterName = c.String(),
                         BitterAmount = c.Double(nullable: false),
-                        TopperId = c.Int(nullable: false),
+                        TopperName = c.String(),
                         TopperAmount = c.Double(nullable: false),
+                        ManagerId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.CocktailId)
-                .ForeignKey("dbo.Bitters", t => t.BitterId, cascadeDelete: true)
-                .ForeignKey("dbo.Juices", t => t.JuiceId)
-                .ForeignKey("dbo.Liqueurs", t => t.LiqueurId, cascadeDelete: true)
-                .ForeignKey("dbo.Liquors", t => t.LiquorId, cascadeDelete: true)
-                .ForeignKey("dbo.Syrups", t => t.SyrupId, cascadeDelete: true)
-                .ForeignKey("dbo.Toppers", t => t.TopperId, cascadeDelete: true)
-                .Index(t => t.LiquorId)
-                .Index(t => t.JuiceId)
-                .Index(t => t.SyrupId)
-                .Index(t => t.LiqueurId)
-                .Index(t => t.BitterId)
-                .Index(t => t.TopperId);
+                .ForeignKey("dbo.Managers", t => t.ManagerId, cascadeDelete: true)
+                .Index(t => t.ManagerId);
+            
+            CreateTable(
+                "dbo.Inventories",
+                c => new
+                    {
+                        InventoryId = c.Int(nullable: false, identity: true),
+                        VodkaBottleCount = c.Double(nullable: false),
+                        GinBottleCount = c.Double(nullable: false),
+                        WhiteRumBottleCount = c.Double(nullable: false),
+                        TequilaBottleCount = c.Double(nullable: false),
+                        SpicedRumBottleCount = c.Double(nullable: false),
+                        BrandyBottleCount = c.Double(nullable: false),
+                        WhiskeyBottleCount = c.Double(nullable: false),
+                        ScotchBottleCount = c.Double(nullable: false),
+                        BarId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.InventoryId)
+                .ForeignKey("dbo.Bars", t => t.BarId, cascadeDelete: true)
+                .Index(t => t.BarId);
             
             CreateTable(
                 "dbo.Juices",
@@ -180,6 +190,16 @@ namespace BarManagerProgram.Migrations
                 .PrimaryKey(t => t.LiquorId);
             
             CreateTable(
+                "dbo.AspNetRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(nullable: false, maxLength: 256),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+            
+            CreateTable(
                 "dbo.Syrups",
                 c => new
                     {
@@ -197,63 +217,13 @@ namespace BarManagerProgram.Migrations
                     })
                 .PrimaryKey(t => t.TopperId);
             
-            CreateTable(
-                "dbo.Inventories",
-                c => new
-                    {
-                        InventoryId = c.Int(nullable: false, identity: true),
-                        VodkaBottleCount = c.Double(nullable: false),
-                        GinBottleCount = c.Double(nullable: false),
-                        WhiteRumBottleCount = c.Double(nullable: false),
-                        TequilaBottleCount = c.Double(nullable: false),
-                        SpicedRumBottleCount = c.Double(nullable: false),
-                        BrandyBottleCount = c.Double(nullable: false),
-                        WhiskeyBottleCount = c.Double(nullable: false),
-                        ScotchBottleCount = c.Double(nullable: false),
-                        BarId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.InventoryId)
-                .ForeignKey("dbo.Bars", t => t.BarId, cascadeDelete: true)
-                .Index(t => t.BarId);
-            
-            CreateTable(
-                "dbo.ManagerCocktails",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ManagerId = c.Int(nullable: false),
-                        CocktailId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Cocktails", t => t.CocktailId, cascadeDelete: false)
-                .ForeignKey("dbo.Managers", t => t.ManagerId, cascadeDelete: false)
-                .Index(t => t.ManagerId)
-                .Index(t => t.CocktailId);
-            
-            CreateTable(
-                "dbo.AspNetRoles",
-                c => new
-                    {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
-                    })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.ManagerCocktails", "ManagerId", "dbo.Managers");
-            DropForeignKey("dbo.ManagerCocktails", "CocktailId", "dbo.Cocktails");
             DropForeignKey("dbo.Inventories", "BarId", "dbo.Bars");
-            DropForeignKey("dbo.Cocktails", "TopperId", "dbo.Toppers");
-            DropForeignKey("dbo.Cocktails", "SyrupId", "dbo.Syrups");
-            DropForeignKey("dbo.Cocktails", "LiquorId", "dbo.Liquors");
-            DropForeignKey("dbo.Cocktails", "LiqueurId", "dbo.Liqueurs");
-            DropForeignKey("dbo.Cocktails", "JuiceId", "dbo.Juices");
-            DropForeignKey("dbo.Cocktails", "BitterId", "dbo.Bitters");
+            DropForeignKey("dbo.Cocktails", "ManagerId", "dbo.Managers");
             DropForeignKey("dbo.Bartenders", "ManagerId", "dbo.Managers");
             DropForeignKey("dbo.Bartenders", "ApplicationId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Bars", "ManagerId", "dbo.Managers");
@@ -262,15 +232,8 @@ namespace BarManagerProgram.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.ManagerCocktails", new[] { "CocktailId" });
-            DropIndex("dbo.ManagerCocktails", new[] { "ManagerId" });
             DropIndex("dbo.Inventories", new[] { "BarId" });
-            DropIndex("dbo.Cocktails", new[] { "TopperId" });
-            DropIndex("dbo.Cocktails", new[] { "BitterId" });
-            DropIndex("dbo.Cocktails", new[] { "LiqueurId" });
-            DropIndex("dbo.Cocktails", new[] { "SyrupId" });
-            DropIndex("dbo.Cocktails", new[] { "JuiceId" });
-            DropIndex("dbo.Cocktails", new[] { "LiquorId" });
+            DropIndex("dbo.Cocktails", new[] { "ManagerId" });
             DropIndex("dbo.Bartenders", new[] { "ManagerId" });
             DropIndex("dbo.Bartenders", new[] { "ApplicationId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
@@ -280,14 +243,13 @@ namespace BarManagerProgram.Migrations
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Managers", new[] { "ApplicationId" });
             DropIndex("dbo.Bars", new[] { "ManagerId" });
-            DropTable("dbo.AspNetRoles");
-            DropTable("dbo.ManagerCocktails");
-            DropTable("dbo.Inventories");
             DropTable("dbo.Toppers");
             DropTable("dbo.Syrups");
+            DropTable("dbo.AspNetRoles");
             DropTable("dbo.Liquors");
             DropTable("dbo.Liqueurs");
             DropTable("dbo.Juices");
+            DropTable("dbo.Inventories");
             DropTable("dbo.Cocktails");
             DropTable("dbo.Bitters");
             DropTable("dbo.Bartenders");

@@ -22,7 +22,6 @@ namespace BarManagerProgram.Models
     {
         public DbSet<Manager> Manager { get; set; }
         public DbSet<Bartender> Bartender { get; set; }
-        public DbSet<ManagerCocktail> ManagerCocktail { get; set; }
         public DbSet<Bar> Bar { get; set; }
         public DbSet<Inventory> Inventory { get; set; }
         public DbSet<Cocktail> Cocktail { get; set; }

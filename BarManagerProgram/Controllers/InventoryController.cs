@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Mvc; 
 
 namespace BarManagerProgram.Controllers
 {
@@ -20,7 +20,11 @@ namespace BarManagerProgram.Controllers
         // GET: Inventory
         public ActionResult Index()
         {
-            return View();
+            var userId = GetAppId();
+            var manager = GetManagerByAppId(userId);
+            var bar = GetBarByManagerId(manager.ManagerId);
+            var inventory = GetInventoryByBarId(bar.BarId);
+            return View(inventory);
         }
 
         // GET: Inventory/Details/5
@@ -129,9 +133,14 @@ namespace BarManagerProgram.Controllers
             var bar = context.Bar.Where(b => b.ManagerId == managerid).FirstOrDefault();
             return bar;
         }
+        public Inventory GetInventoryByBarId(int id)
+        {
+            var inventory = context.Inventory.Where(i => i.BarId == id).FirstOrDefault();
+            return inventory;
+        }
         public Inventory GetInventoryById(int id)
         {
-            var inventory = context.Inventory.Where(b => b.InventoryId == id).FirstOrDefault();
+            var inventory = context.Inventory.Where(i => i.InventoryId == id).FirstOrDefault();
             return inventory;
         }
     }

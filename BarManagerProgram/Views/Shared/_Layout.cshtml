@@ -17,19 +17,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Imbibe", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Imbibe.", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Manager"))
                     {
-                        <li>@Html.ActionLink("View Inventory", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        <li>@Html.ActionLink("View Inventory", "Index", "Inventory")</li>
+                        <li>@Html.ActionLink("Create A Cocktail", "Create", "Cocktail")</li>
+                        <li>@Html.ActionLink("Create Drink Special", "CreateSpecial", "Manager")</li>
                     }
                     else if (User.IsInRole("Bartender"))
                     {
-
+                        <li>@Html.ActionLink("View Inventory", "Index", "Inventory")</li>
+                        <li>@Html.ActionLink("Find A Cocktail", "Create", "Cocktail")</li> //Need to change pathing after creating ability to filter cocktails
                     }
                     else
                     {
@@ -46,7 +47,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Imbibe.</p>
         </footer>
     </div>
 
