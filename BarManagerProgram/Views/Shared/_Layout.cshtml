@@ -23,18 +23,21 @@
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Manager"))
                     {
+
+                        <li>@Html.ActionLink("Home", "Index", "Manager")</li>
                         <li>@Html.ActionLink("View Inventory", "Index", "Inventory")</li>
                         <li>@Html.ActionLink("Create A Cocktail", "Create", "Cocktail")</li>
                         <li>@Html.ActionLink("Create Drink Special", "CreateSpecial", "Manager")</li>
                     }
                     else if (User.IsInRole("Bartender"))
                     {
+
+                        <li>@Html.ActionLink("Home", "Index", "Bartender")</li>
+                        <li>@Html.ActionLink("Find A Cocktail", "Index", "Cocktail")</li>
                         <li>@Html.ActionLink("View Inventory", "Index", "Inventory")</li>
-                        <li>@Html.ActionLink("Find A Cocktail", "Create", "Cocktail")</li> //Need to change pathing after creating ability to filter cocktails
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
                         <li>@Html.ActionLink("About", "About", "Home")</li>
                         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     }

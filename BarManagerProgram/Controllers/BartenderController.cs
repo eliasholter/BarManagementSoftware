@@ -20,7 +20,9 @@ namespace BarManagerProgram.Controllers
         // GET: Bartender
         public ActionResult Index()
         {
-            return View();
+            var userId = GetAppId();
+            var bartender = GetBartenderByAppId(userId);
+            return View(bartender);
         }
 
         // GET: Bartender/Details/5

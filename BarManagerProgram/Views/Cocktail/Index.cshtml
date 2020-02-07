@@ -1,0 +1,104 @@
+﻿@model IEnumerable<BarManagerProgram.Models.Cocktail>
+
+@{
+    ViewBag.Title = "Current Cocktail Menu";
+}
+
+<h2>Current Cocktail Menu</h2>
+
+
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CocktailName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CocktailType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlavorProfile)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsBubble)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CocktailRating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiquorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JuiceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SyrupName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LiqueurName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BitterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopperName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CocktailName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CocktailType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlavorProfile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBubble)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CocktailRating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LiquorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JuiceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SyrupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LiqueurName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BitterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TopperName)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.CocktailId })
+            </td>
+        </tr>
+    }
+
+</table>

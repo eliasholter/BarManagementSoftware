@@ -1,0 +1,113 @@
+﻿@model BarManagerProgram.Models.Cocktail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Cocktail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Cocktail Name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CocktailName)
+        </dd>
+
+        <dt>
+            Category
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CocktailType)
+        </dd>
+
+        <dt>
+            @Html.DisplayFor(model => model.LiquorName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LiquorAmount) oz
+        </dd>
+
+        @if (Model.JuiceName != "No Juice")
+        {
+            <dt>
+                @Html.DisplayFor(model => model.JuiceName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.JuiceAmount) oz
+            </dd>
+        }
+
+        @if (Model.SyrupName != "No Syrup")
+        {
+            <dt>
+                @Html.DisplayFor(model => model.SyrupName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SyrupAmount) oz
+            </dd>
+        }
+
+        @if (Model.LiqueurName != "No Liqueur")
+        {
+            <dt>
+                @Html.DisplayFor(model => model.LiqueurName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LiqueurAmount) oz
+            </dd>
+        }
+
+        @if (Model.BitterName != "No Bitter")
+        {
+            <dt>
+                @Html.DisplayFor(model => model.BitterName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BitterAmount) dashes
+            </dd>
+        }
+
+        @if (Model.TopperName != "No Topper")
+        {
+            <dt>
+                @Html.DisplayFor(model => model.TopperName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TopperAmount) 0z
+            </dd>
+        }
+
+    </dl>
+</div>
+@if (User.IsInRole("Manager"))
+{
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.CocktailId })
+    </p>
+    <p>
+        @Html.ActionLink("Delete", "Delete", new { id = Model.CocktailId})
+    </p>
+}
+@if (User.IsInRole("Bartender"))
+{
+    <p>
+        @Html.ActionLink("Sell Cocktail", "MakeCocktail", new { id = Model.CocktailId })
+    </p>
+}
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

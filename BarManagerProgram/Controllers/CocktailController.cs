@@ -1,10 +1,14 @@
-﻿using BarManagerProgram.Models;
-using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using BarManagerProgram.Models;
 
 namespace BarManagerProgram.Controllers
 {
@@ -18,15 +22,26 @@ namespace BarManagerProgram.Controllers
         }
 
         // GET: Cocktail
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View();
+            var cocktails = from c in context.Cocktail
+                            select c;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                cocktails = cocktails.Where(c => c.CocktailName.Contains(searchString)
+                                       || c.FlavorProfile.Contains(searchString) || c.CocktailType.Contains(searchString)
+                                       || c.JuiceName.Contains(searchString) || c.SyrupName.Contains(searchString)
+                                       || c.LiqueurName.Contains(searchString) || c.BitterName.Contains(searchString)
+                                       || c.TopperName.Contains(searchString));
+            }
+            return View(cocktails.ToList());
         }
 
         // GET: Cocktail/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var cocktail = GetCocktailById(id);
+            return View(cocktail);
         }
 
         // GET: Cocktail/Create
@@ -86,16 +101,49 @@ namespace BarManagerProgram.Controllers
         // GET: Cocktail/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var cocktail = context.Cocktail.Where(c => c.CocktailId == id).FirstOrDefault();
+
+            var liquors = context.Liquor.Select(s => s.LiquorName).ToList();
+            var juices = context.Juice.Select(s => s.JuiceName).ToList();
+            var syrups = context.Syrup.Select(s => s.SyrupName).ToList();
+            var liqueurs = context.Liqueur.Select(s => s.LiqueurName).ToList();
+            var bitters = context.Bitter.Select(s => s.BitterName).ToList();
+            var toppers = context.Topper.Select(s => s.TopperName).ToList();
+            ViewBag.LiquorName = new SelectList(liquors);
+            ViewBag.JuiceName = new SelectList(juices);
+            ViewBag.SyrupName = new SelectList(syrups);
+            ViewBag.LiqueurName = new SelectList(liqueurs);
+            ViewBag.BitterName = new SelectList(bitters);
+            ViewBag.TopperName = new SelectList(toppers);
+            return View(cocktail);
         }
 
         // POST: Cocktail/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Cocktail cocktail)
         {
             try
             {
                 // TODO: Add update logic here
+                Cocktail updatedCocktail = context.Cocktail.Where(c => c.CocktailId == id).FirstOrDefault();
+                updatedCocktail.CocktailName = cocktail.CocktailName;
+                updatedCocktail.CocktailType = cocktail.CocktailType;
+                updatedCocktail.FlavorProfile = cocktail.FlavorProfile;
+                updatedCocktail.Price = cocktail.Price;
+                updatedCocktail.IsBubble = cocktail.IsBubble;
+                updatedCocktail.LiquorName = cocktail.LiquorName;
+                updatedCocktail.LiquorAmount = cocktail.LiquorAmount;
+                updatedCocktail.JuiceName = cocktail.JuiceName;
+                updatedCocktail.JuiceAmount = cocktail.JuiceAmount;
+                updatedCocktail.SyrupName = cocktail.SyrupName;
+                updatedCocktail.SyrupAmount = cocktail.SyrupAmount;
+                updatedCocktail.LiqueurName = cocktail.LiqueurName;
+                updatedCocktail.LiqueurAmount = cocktail.LiqueurAmount;
+                updatedCocktail.BitterName = cocktail.BitterName;
+                updatedCocktail.BitterAmount = cocktail.BitterAmount;
+                updatedCocktail.TopperName = cocktail.TopperName;
+                updatedCocktail.TopperAmount = cocktail.TopperAmount;
+                context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -108,16 +156,20 @@ namespace BarManagerProgram.Controllers
         // GET: Cocktail/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var cocktail = GetCocktailById(id);
+            return View(cocktail);
         }
 
         // POST: Cocktail/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Cocktail cocktail)
         {
             try
             {
                 // TODO: Add delete logic here
+                cocktail = GetCocktailById(id);
+                context.Cocktail.Remove(cocktail);
+                context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -126,6 +178,13 @@ namespace BarManagerProgram.Controllers
                 return View();
             }
         }
+
+        public ActionResult MakeCocktail(int id)
+        {
+
+            return RedirectToAction("RateCocktail");
+        }
+
         public string GetAppId()
         {
             var userid = User.Identity.GetUserId();
@@ -135,6 +194,11 @@ namespace BarManagerProgram.Controllers
         {
             var manager = context.Manager.Where(b => b.ApplicationId == userid).FirstOrDefault();
             return manager;
+        }
+        public Cocktail GetCocktailById(int id)
+        {
+            var cocktail = context.Cocktail.Where(c => c.CocktailId == id).FirstOrDefault();
+            return cocktail;
         }
     }
 }
