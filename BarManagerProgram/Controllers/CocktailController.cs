@@ -8,17 +8,26 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+using Twilio.TwiML;
+using Twilio.AspNet.Mvc;
+using static BarManagerProgram.Models.TwilioAPIKey;
 using BarManagerProgram.Models;
+using PickUpSports.Controllers;
 
 namespace BarManagerProgram.Controllers
 {
     public class CocktailController : Controller
     {
         ApplicationDbContext context;
+        SMSController SMS;
 
         public CocktailController()
         {
             context = new ApplicationDbContext();
+            SMS = new SMSController();
         }
 
         // GET: Cocktail
@@ -181,8 +190,84 @@ namespace BarManagerProgram.Controllers
 
         public ActionResult MakeCocktail(int id)
         {
+            Cocktail cocktail = GetCocktailById(id);
+            Inventory inventory = GetInventoryByManagerId(cocktail.ManagerId);
+            var liquorToRemove = Math.Round(cocktail.LiquorAmount / 33.814, 2);
+
+            switch (cocktail.LiquorName)
+            {
+                case "Vodka":
+                    inventory.VodkaBottleCount = inventory.VodkaBottleCount - liquorToRemove;
+                    if (inventory.VodkaBottleCount < 3)
+                    {
+                        SMS.SendSMSToManager("vodka");
+                    }
+                    break;
+                case "Gin":
+                    inventory.GinBottleCount = inventory.GinBottleCount - liquorToRemove;
+                    if (inventory.GinBottleCount < 2)
+                    {
+                        SMS.SendSMSToManager("gin");
+                    }
+                    break;
+                case "White Rum":
+                    inventory.WhiteRumBottleCount = inventory.WhiteRumBottleCount - liquorToRemove;
+                    if (inventory.WhiteRumBottleCount < 2)
+                    {
+                        SMS.SendSMSToManager("white rum");
+                    }
+                    break;
+                case "Tequila":
+                    inventory.TequilaBottleCount = inventory.TequilaBottleCount - liquorToRemove;
+                    if (inventory.TequilaBottleCount < 2)
+                    {
+                        SMS.SendSMSToManager("tequila");
+                    }
+                    break;
+                case "Spiced Rum":
+                    inventory.SpicedRumBottleCount = inventory.SpicedRumBottleCount - liquorToRemove;
+                    if (inventory.SpicedRumBottleCount < 2)
+                    {
+                        SMS.SendSMSToManager("spiced rum");
+                    }
+                    break;
+                case "Brandy":
+                    inventory.BrandyBottleCount = inventory.BrandyBottleCount - liquorToRemove;
+                    if (inventory.BrandyBottleCount < 3)
+                    {
+                        SMS.SendSMSToManager("brandy");
+                    }
+                    break;
+                case "Whiskey":
+                    inventory.WhiskeyBottleCount = inventory.WhiskeyBottleCount - liquorToRemove;
+                    if (inventory.WhiskeyBottleCount < 3)
+                    {
+                        SMS.SendSMSToManager("whiskey");
+                    }
+                    break;
+                case "Scotch":
+                    inventory.ScotchBottleCount = inventory.ScotchBottleCount - liquorToRemove;
+                    if (inventory.ScotchBottleCount < 1)
+                    {
+                        SMS.SendSMSToManager("scotch");
+                    }
+                    break;
+                case "Cava":
+                    inventory.CavaBottleCount = inventory.CavaBottleCount - liquorToRemove;
+                    if (inventory.CavaBottleCount < 3)
+                    {
+                        SMS.SendSMSToManager("cava");
+                    }
+                    break;
+
+            }
 
             return RedirectToAction("RateCocktail");
+        }
+
+        public ActionResult RateCocktail(int id)
+        {
+            return View();
         }
 
         public string GetAppId()
@@ -199,6 +284,12 @@ namespace BarManagerProgram.Controllers
         {
             var cocktail = context.Cocktail.Where(c => c.CocktailId == id).FirstOrDefault();
             return cocktail;
+        }
+        public Inventory GetInventoryByManagerId(int managerId)
+        {
+            var bar = context.Bar.Where(b => b.ManagerId == managerId).FirstOrDefault();
+            var inventory = context.Inventory.Where(i => i.BarId == bar.BarId).FirstOrDefault();
+            return inventory;
         }
     }
 }
